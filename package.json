@@ -7,5 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Will Bogey <bogeywm@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "reviews-collector-android": "git+ssh://git@github.com/wbio/reviews-collector-android.git",
+    "reviews-collector-ios": "git+ssh://git@github.com/wbio/reviews-collector-ios.git"
+  }
 }
