@@ -1,6 +1,6 @@
 'use strict';
 
-const Collector = require('src/collector.js');
+const Collector = require('./src/collector.js');
 
 Collector.collect({
 	// The # of days worth of reviews to collect
