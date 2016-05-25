@@ -6,6 +6,13 @@
 
 This module gathers reviews for the specified app and stores them in a SQLite database (`reviews.db`) in the module's root directory. Reviews for each app are collected until we find reviews older than the age specified by `daysOfReviews`.
 
+## Installation
+
+```shell
+git clone git@github.com:wbio/reviews-collector.git
+npm install
+```
+
 ## Configuration
 
 All of the configuration takes place in `index.js`. There are only 3 properties to configure:
@@ -29,4 +36,10 @@ The object passed to `Collector#collect` should look something like:
 		'com.google.android.apps.maps',
 	],
 }
+```
+
+## Running the script
+
+```shell
+npm start
 ```
