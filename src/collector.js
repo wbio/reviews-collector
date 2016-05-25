@@ -6,7 +6,7 @@ const P = require('bluebird');
 const recorder = require('./recorder.js');
 
 
-function Collector(options) {
+function collect(options) {
 	if (!options.daysOfReviews) {
 		throw new Error('You must specify how many days of reviews to collect using the "daysOfReviews" property');
 	}
@@ -82,4 +82,4 @@ function Collector(options) {
 		}
 	}
 }
-module.exports = Collector;
+module.exports.collect = collect;
