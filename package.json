@@ -9,7 +9,10 @@
   "author": "Will Bogey <bogeywm@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^3.4.0",
     "reviews-collector-android": "^0.1.3",
-    "reviews-collector-ios": "^0.1.4"
+    "reviews-collector-ios": "^0.1.4",
+    "sequelize": "^3.23.2",
+    "sqlite3": "^3.1.4"
   }
 }
