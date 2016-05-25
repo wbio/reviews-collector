@@ -2,12 +2,15 @@
 
 const CollectorForiOS = require('reviews-collector-ios');
 const CollectorForAndroid = require('reviews-collector-android');
+const P = require('bluebird');
+const recorder = require('./recorder.js');
 
 const daysOfReviews = 2;	// The # of days of reviews to collect
 const now = new Date();
 const earliestReviewTime = now.setDate(now.getDate() - daysOfReviews);
 
 const collectors = [];
+const inserts = [];
 
 // Create a collector for iOS
 collectors.push(new CollectorForiOS(
@@ -20,7 +23,7 @@ collectors.push(new CollectorForiOS(
 // Create a collector for Android
 collectors.push(new CollectorForAndroid(
 	[ // List the IDs of the Android apps you want to collect reviews for
-		'com.instagram.android',
+		'com.capitalone.mobile.wallet',
 	],
 	{ checkBeforeContinue: true }
 ));
@@ -44,19 +47,29 @@ function begin() {
 	}
 
 	function handleReview(result) {
-		console.log(result);
+		inserts.push(recorder.record(result));
 	}
 
 	function handlePageComplete(result) {
-		result.stop();
+		console.log(`${result.os}/${result.appId}: Parsed to ${result.firstReviewTime} (page ${result.pageNum})`);
+		// If we find a review from earlier than the first date we care about, stop collecting
+		if (result.firstReviewTime < earliestReviewTime) {
+			result.stop();
+		} else {
+			result.continue();
+		}
 	}
 
 	function handleAllAppsComplete(result) {
-		console.log(`We have finished collecting reviews for the ${result.os} collector`);
+		console.log(`>>> We have finished collecting reviews for the ${result.os} collector`);
 		numComplete++;
 		if (numComplete === numCollectors) {
-			console.log('We have finished collecting reviews for all of the collectors');
-			process.exit();
+			console.log('>>>>> We have finished collecting reviews for all of the collectors');
+			// Wait for all of the inserts to finish and then exit
+			P.all(inserts)
+				.then(() => {
+					process.exit();
+				});
 		}
 	}
 }
